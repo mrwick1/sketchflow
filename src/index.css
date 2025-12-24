@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
 
 :root {
+  /* Legacy tokens (used by current components — will be removed in Phase 4) */
   --primary: #10b981;
   --primary-hover: #059669;
   --primary-bg-color: white;
@@ -13,6 +14,41 @@
   --shadow-color: rgba(0, 0, 0, 0.1);
   --hover-bg-color: #d1fae5;
   --panel-bg-color: #e2e8f0;
+
+  /* Swiss Precision Design Tokens */
+  --color-accent: #0055FF;
+  --color-bg: #FFFFFF;
+  --color-fg: #1A1A1A;
+  --color-border: #D4D4D4;
+  --color-surface: #F5F5F5;
+  --color-surface-hover: #EBEBEB;
+  --color-muted: #737373;
+
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  --radius: 0px;
+  --border: 1px solid var(--color-border);
+  --transition: 150ms ease;
+}
+
+[data-theme="dark"] {
+  --color-bg: #0A0A0A;
+  --color-fg: #E8E8E8;
+  --color-border: #2A2A2A;
+  --color-surface: #141414;
+  --color-surface-hover: #1F1F1F;
+  --color-muted: #888888;
 }
 
 * {

@@ -18,6 +18,54 @@
   background-color: var(--primary-hover);
 }
 
+.infoDialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  border: none;
+  border-radius: 10px;
+  padding: 0;
+  max-width: 540px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.infoDialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.dialogHeader {
+  background-color: var(--primary);
+  color: var(--primary-bg-color);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.dialogTitle {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.closeButton {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--primary-bg-color);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
 .infoContent {
   padding: 20px;
   max-width: 500px;
@@ -41,24 +89,4 @@
 .infoContent strong {
   color: var(--primary);
   font-weight: bold;
-}
-
-.DialogTitle {
-  background-color: var(--primary);
-  color: var(--primary-bg-color);
-  text-align: center;
-}
-
-.DialogTitle h2 {
-  font-size: 1.5em;
-}
-
-.IconButton {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-}
-
-.CloseIcon {
-  color: var(--primary-bg-color);
 }

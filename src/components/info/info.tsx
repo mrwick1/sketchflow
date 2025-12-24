@@ -1,53 +1,32 @@
-import { BsQuestionCircle } from "react-icons/bs";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import { HelpCircle, X } from "lucide-react";
 import "./info-style.css";
-import { useState } from "react";
+import { useRef } from "react";
 
 export function Info() {
-  const [open, setOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   return (
     <div>
       <button
         className="infoButton"
         aria-label="Open information dialog"
-        onClick={() => setOpen(true)}
+        onClick={() => dialogRef.current?.showModal()}
       >
-        <BsQuestionCircle />
+        <HelpCircle size={18} />
       </button>
-      <Dialog
-        onClose={() => setOpen(false)}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-        PaperProps={{
-          style: {
-            borderRadius: "10px",
-          },
-        }}
-      >
-        <DialogTitle
-          sx={{ m: 0, p: 2 }}
-          id="customized-dialog-title"
-          className="DialogTitle"
-        >
-          How to Use SketchFlow
-        </DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={() => setOpen(false)}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-          className="IconButton"
-        >
-          <CloseIcon className="CloseIcon" />
-        </IconButton>
+      <dialog ref={dialogRef} className="infoDialog" aria-labelledby="info-dialog-title">
+        <div className="dialogHeader">
+          <h2 id="info-dialog-title" className="dialogTitle">
+            How to Use SketchFlow
+          </h2>
+          <button
+            className="closeButton"
+            aria-label="Close"
+            onClick={() => dialogRef.current?.close()}
+          >
+            <X size={18} />
+          </button>
+        </div>
         <div className="infoContent">
           <p>Welcome to SketchFlow! Get started with these simple steps:</p>
           <ul>
@@ -89,7 +68,7 @@ export function Info() {
           </ul>
           <p>Enjoy creating your masterpiece!</p>
         </div>
-      </Dialog>
+      </dialog>
     </div>
   );
 }
