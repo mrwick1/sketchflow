@@ -1,12 +1,11 @@
 import getStroke from "perfect-freehand";
-import { ElementType } from "../types";
+import type { RoughCanvas } from "roughjs/bin/canvas";
+import type { CanvasElement } from "../engine/elements/types";
 
 export const drawElement = (
-  // TODO: add type
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  roughCanvas: any,
+  roughCanvas: RoughCanvas,
   context: CanvasRenderingContext2D,
-  element: ElementType
+  element: CanvasElement
 ) => {
   switch (element.type) {
     case "line":
@@ -14,10 +13,7 @@ export const drawElement = (
       roughCanvas.draw(element.roughElement);
       break;
     case "pencil": {
-      if (!element.points) {
-        throw new Error("Pencil element points are undefined");
-      }
-      const strokePoints = getStroke(element.points);
+      const strokePoints = getStroke(element.points as { x: number; y: number }[]);
       const formattedPoints: [number, number][] = strokePoints.map((point) => {
         if (point.length !== 2) {
           throw new Error(
@@ -32,17 +28,15 @@ export const drawElement = (
     }
     case "text": {
       context.textBaseline = "top";
-      context.font = "24px sans-serif";
-      const text = element.text || "";
-      context.fillText(text, element.x1, element.y1);
+      context.font = `${element.fontSize}px sans-serif`;
+      context.fillText(element.text, element.x1, element.y1);
       break;
     }
     default:
-      throw new Error(`Type not recognised: ${element.type}`);
+      throw new Error(`Type not recognised: ${(element as CanvasElement).type}`);
   }
 };
 
-// 🥑 source: https://www.npmjs.com/package/perfect-freehand/v/1.0.4
 const getSvgPathFromStroke = (stroke: [number, number][]) => {
   if (!stroke.length) return "";
 

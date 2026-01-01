@@ -1,4 +1,2 @@
-import { ToolsType } from "../types";
-
-export const adjustmentRequired = (type: ToolsType) =>
+export const adjustmentRequired = (type: string) =>
   ["line", "rectangle"].includes(type);
