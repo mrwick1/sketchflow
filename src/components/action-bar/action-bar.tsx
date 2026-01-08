@@ -1,19 +1,16 @@
-import { Tools, ToolsType } from "../../types";
+import { TOOLS } from "../../engine/tools/types";
+import { useCanvasStore } from "../../store/useCanvasStore";
 
-import { LuPencil } from "react-icons/lu";
-import { FiMinus, FiMousePointer, FiSquare } from "react-icons/fi";
-import { IoHandRightOutline, IoText } from "react-icons/io5";
+import { Hand, MousePointer2, Square, Minus, Pencil, Type } from "lucide-react";
 import "./action-bar-style.css";
 
-type ActionBarProps = {
-  tool: ToolsType;
-  setTool: (tool: ToolsType) => void;
-};
+export function ActionBar() {
+  const tool = useCanvasStore((s) => s.activeTool);
+  const setTool = useCanvasStore((s) => s.setActiveTool);
 
-export function ActionBar({ tool, setTool }: ActionBarProps) {
   return (
     <div className="actionBar">
-      {Object.values(Tools).map((t, index) => (
+      {Object.values(TOOLS).map((t, index) => (
         <div
           className={`inputWrapper ${tool === t ? "selected" : ""}`}
           key={t}
@@ -27,12 +24,12 @@ export function ActionBar({ tool, setTool }: ActionBarProps) {
             readOnly
           />
           <label htmlFor={t}>{t}</label>
-          {t === "pan" && <IoHandRightOutline />}
-          {t === "selection" && <FiMousePointer />}
-          {t === "rectangle" && <FiSquare />}
-          {t === "line" && <FiMinus />}
-          {t === "pencil" && <LuPencil />}
-          {t === "text" && <IoText />}
+          {t === "pan" && <Hand size={16} />}
+          {t === "selection" && <MousePointer2 size={16} />}
+          {t === "rectangle" && <Square size={16} />}
+          {t === "line" && <Minus size={16} />}
+          {t === "pencil" && <Pencil size={16} />}
+          {t === "text" && <Type size={16} />}
           <span>{index + 1}</span>
         </div>
       ))}
