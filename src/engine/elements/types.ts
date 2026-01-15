@@ -11,13 +11,15 @@ export type Bounds = {
 
 export type ElementStyle = {
   readonly strokeColor: string;
+  readonly fillColor: string;
   readonly strokeWidth: number;
   readonly opacity: number;
   readonly roughness: number;
 };
 
 export const DEFAULT_STYLE: ElementStyle = {
-  strokeColor: "#000000",
+  strokeColor: "#1A1A1A",
+  fillColor: "none",
   strokeWidth: 1,
   opacity: 1,
   roughness: 1,
@@ -49,10 +51,28 @@ export interface TextElement extends BaseElement {
   readonly fontSize: number;
 }
 
+export interface EllipseElement extends BaseElement {
+  readonly type: "ellipse";
+  readonly roughElement: Drawable;
+}
+
+export interface ArrowElement extends BaseElement {
+  readonly type: "arrow";
+  readonly roughElement: Drawable;
+}
+
+export interface DiamondElement extends BaseElement {
+  readonly type: "diamond";
+  readonly roughElement: Drawable;
+}
+
 export type CanvasElement =
   | RectangleElement
   | LineElement
   | PencilElement
-  | TextElement;
+  | TextElement
+  | EllipseElement
+  | ArrowElement
+  | DiamondElement;
 
 export type ElementKind = CanvasElement["type"];

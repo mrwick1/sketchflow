@@ -1,2 +1,2 @@
 export const adjustmentRequired = (type: string) =>
-  ["line", "rectangle"].includes(type);
+  ["line", "rectangle", "ellipse", "diamond"].includes(type);

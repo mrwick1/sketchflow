@@ -6,6 +6,7 @@ import {
   type CanvasElement,
   type ElementStyle,
 } from "../engine/elements/types";
+import { styleToRoughOptions } from "./style-to-rough-options";
 
 export const createElement = (
   x1: number,
@@ -14,17 +15,38 @@ export const createElement = (
   y2: number,
   type: Tool,
   style: ElementStyle = DEFAULT_STYLE,
-  id: string = nanoid()
+  id: string = nanoid(),
+  seed?: number
 ): CanvasElement => {
   const generator = rough.generator();
+  const opts = styleToRoughOptions(style, seed);
 
   switch (type) {
     case "line": {
-      const roughElement = generator.line(x1, y1, x2, y2);
+      const roughElement = generator.line(x1, y1, x2, y2, opts);
       return { id, x1, y1, x2, y2, type, roughElement, style };
     }
     case "rectangle": {
-      const roughElement = generator.rectangle(x1, y1, x2 - x1, y2 - y1);
+      const roughElement = generator.rectangle(x1, y1, x2 - x1, y2 - y1, opts);
+      return { id, x1, y1, x2, y2, type, roughElement, style };
+    }
+    case "ellipse": {
+      const cx = (x1 + x2) / 2;
+      const cy = (y1 + y2) / 2;
+      const roughElement = generator.ellipse(cx, cy, x2 - x1, y2 - y1, opts);
+      return { id, x1, y1, x2, y2, type, roughElement, style };
+    }
+    case "diamond": {
+      const cx = (x1 + x2) / 2;
+      const cy = (y1 + y2) / 2;
+      const roughElement = generator.polygon(
+        [[cx, y1], [x2, cy], [cx, y2], [x1, cy]],
+        opts
+      );
+      return { id, x1, y1, x2, y2, type, roughElement, style };
+    }
+    case "arrow": {
+      const roughElement = generator.line(x1, y1, x2, y2, opts);
       return { id, x1, y1, x2, y2, type, roughElement, style };
     }
     case "pencil":

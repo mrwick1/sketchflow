@@ -45,6 +45,44 @@ const positionWithinElement = (
         x >= x1 && x <= x2 && y >= y1 && y <= y2 ? "inside" : null;
       return (topLeft || topRight || bottomLeft || bottomRight || inside) as HitPosition | null;
     }
+    case "ellipse": {
+      const topLeft = nearPoint(x, y, x1, y1, "topLeft");
+      const topRight = nearPoint(x, y, x2, y1, "topRight");
+      const bottomLeft = nearPoint(x, y, x1, y2, "bottomLeft");
+      const bottomRight = nearPoint(x, y, x2, y2, "bottomRight");
+      const cx = (x1 + x2) / 2;
+      const cy = (y1 + y2) / 2;
+      const rx = Math.abs(x2 - x1) / 2;
+      const ry = Math.abs(y2 - y1) / 2;
+      const inside =
+        rx > 0 && ry > 0 &&
+        ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1
+          ? "inside"
+          : null;
+      return (topLeft || topRight || bottomLeft || bottomRight || inside) as HitPosition | null;
+    }
+    case "diamond": {
+      const topLeft = nearPoint(x, y, x1, y1, "topLeft");
+      const topRight = nearPoint(x, y, x2, y1, "topRight");
+      const bottomLeft = nearPoint(x, y, x1, y2, "bottomLeft");
+      const bottomRight = nearPoint(x, y, x2, y2, "bottomRight");
+      const cx = (x1 + x2) / 2;
+      const cy = (y1 + y2) / 2;
+      const halfW = Math.abs(x2 - x1) / 2;
+      const halfH = Math.abs(y2 - y1) / 2;
+      const inside =
+        halfW > 0 && halfH > 0 &&
+        Math.abs(x - cx) / halfW + Math.abs(y - cy) / halfH <= 1
+          ? "inside"
+          : null;
+      return (topLeft || topRight || bottomLeft || bottomRight || inside) as HitPosition | null;
+    }
+    case "arrow": {
+      const on = onLine(x1, y1, x2, y2, x, y);
+      const start = nearPoint(x, y, x1, y1, "start");
+      const end = nearPoint(x, y, x2, y2, "end");
+      return (start || end || on) as HitPosition | null;
+    }
     case "pencil": {
       const betweenAnyPoint = element.points.some((point, index) => {
         const nextPoint = element.points[index + 1];

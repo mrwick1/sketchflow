@@ -1,5 +1,6 @@
 import type { StateCreator } from "zustand";
-import type { CanvasElement } from "../../engine/elements/types";
+import type { CanvasElement, ElementStyle } from "../../engine/elements/types";
+import { createElement } from "../../utilities/create-element";
 import type { CanvasStore } from "../types";
 
 export interface ElementsSlice {
@@ -16,6 +17,10 @@ export interface ElementsSlice {
   redo: () => void;
   getElement: (id: string) => CanvasElement | undefined;
   getElementsArray: () => CanvasElement[];
+  deleteElement: (id: string) => void;
+  updateElementStyle: (id: string, styleUpdate: Partial<ElementStyle>) => void;
+  hydrateElements: (elements: Map<string, CanvasElement>) => void;
+  clearCanvas: () => void;
 }
 
 // Use set(partial) instead of set(fn) to bypass immer's Draft
@@ -93,4 +98,64 @@ export const createElementsSlice: StateCreator<
   getElement: (id) => get().elements.get(id),
 
   getElementsArray: () => Array.from(get().elements.values()),
+
+  deleteElement: (id) => {
+    const next = new Map(get().elements);
+    next.delete(id);
+    set({ elements: next });
+  },
+
+  hydrateElements: (elements) => {
+    set({
+      elements: new Map(elements),
+      history: [new Map(elements)],
+      historyIndex: 0,
+    });
+  },
+
+  clearCanvas: () => {
+    // Push current state to history first so Ctrl+Z restores it
+    const { elements, history, historyIndex } = get();
+    const truncated = history.slice(0, historyIndex + 1);
+    truncated.push(new Map(elements));
+
+    set({
+      elements: new Map(),
+      history: [...truncated, new Map()],
+      historyIndex: truncated.length,
+    });
+  },
+
+  updateElementStyle: (id, styleUpdate) => {
+    const element = get().elements.get(id);
+    if (!element) return;
+
+    const newStyle = { ...element.style, ...styleUpdate };
+    let updated: CanvasElement;
+
+    switch (element.type) {
+      case "line":
+      case "rectangle":
+      case "ellipse":
+      case "diamond":
+      case "arrow":
+        updated = createElement(
+          element.x1, element.y1, element.x2, element.y2,
+          element.type, newStyle, element.id, element.roughElement.options.seed
+        );
+        break;
+      case "pencil":
+        updated = { ...element, style: newStyle };
+        break;
+      case "text":
+        updated = { ...element, style: newStyle };
+        break;
+      default:
+        return;
+    }
+
+    const next = new Map(get().elements);
+    next.set(id, updated);
+    set({ elements: next });
+  },
 });
