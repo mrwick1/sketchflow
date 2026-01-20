@@ -21,8 +21,13 @@ export function updateElement(
   switch (type) {
     case "line":
     case "rectangle":
-      updated = createElement(x1, y1, x2, y2, type, existing.style, id);
+    case "ellipse":
+    case "diamond":
+    case "arrow": {
+      const seed = "roughElement" in existing ? existing.roughElement.options.seed : undefined;
+      updated = createElement(x1, y1, x2, y2, type, existing.style, id, seed);
       break;
+    }
     case "pencil": {
       if (existing.type !== "pencil") return;
       const newPoints = [...existing.points, { x: x2, y: y2 }];

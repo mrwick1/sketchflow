@@ -8,6 +8,7 @@ import { useKeyboardShortcuts } from "./useKeyboardShortcuts";
 import { useWheelHandler } from "./useWheelHandler";
 import { useWindowResize } from "./useWindowResize";
 import { updateElement } from "./updateElement";
+import styles from "./canvas.module.css";
 
 export function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -72,7 +73,7 @@ export function Canvas() {
         <textarea
           ref={textAreaRef}
           onBlur={handleBlur}
-          className="textArea"
+          className={styles.textArea}
           style={{
             top: selectedElement
               ? (selectedElement.y1 - 2) * scale +
@@ -82,7 +83,7 @@ export function Canvas() {
             left: selectedElement
               ? selectedElement.x1 * scale + panOffset.x * scale - scaleOffset.x
               : 0,
-            font: `${24 * scale}px sans-serif`,
+            fontSize: `${24 * scale}px`,
           }}
         />
       ) : null}

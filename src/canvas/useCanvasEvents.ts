@@ -29,6 +29,7 @@ export function useCanvasEvents(canvasRef: RefObject<HTMLCanvasElement | null>) 
   const addElement = useCanvasStore((s) => s.addElement);
   const overwriteHistory = useCanvasStore((s) => s.overwriteHistory);
   const replaceAndOverwrite = useCanvasStore((s) => s.replaceAndOverwrite);
+  const deleteElement = useCanvasStore((s) => s.deleteElement);
   const setAction = useCanvasStore((s) => s.setAction);
   const setInteraction = useCanvasStore((s) => s.setInteraction);
   const setSelectedElementId = useCanvasStore((s) => s.setSelectedElementId);
@@ -64,6 +65,16 @@ export function useCanvasEvents(canvasRef: RefObject<HTMLCanvasElement | null>) 
         setAction("panning");
         setStartPanMousePosition({ x: clientX, y: clientY });
         document.body.style.cursor = "grabbing";
+        return;
+      }
+
+      if (activeTool === "eraser") {
+        const hit = getElementAtPosition(clientX, clientY, getElementsArray());
+        if (hit) {
+          pushHistory();
+          deleteElement(hit.element.id);
+          overwriteHistory();
+        }
         return;
       }
 
@@ -113,9 +124,13 @@ export function useCanvasEvents(canvasRef: RefObject<HTMLCanvasElement | null>) 
           } else {
             setAction("resizing");
           }
+        } else {
+          // Clicked empty space — deselect
+          setSelectedElementId(null);
         }
       } else {
-        const newElement = createElement(clientX, clientY, clientX, clientY, activeTool);
+        const activeStyle = useCanvasStore.getState().activeStyle;
+        const newElement = createElement(clientX, clientY, clientX, clientY, activeTool, activeStyle);
         pushHistory();
         addElement(newElement);
         overwriteHistory();
@@ -126,7 +141,7 @@ export function useCanvasEvents(canvasRef: RefObject<HTMLCanvasElement | null>) 
     },
     [
       action, activeTool, pressedKeys, getMouseCoordinates,
-      getElementsArray, pushHistory, addElement, overwriteHistory,
+      getElementsArray, pushHistory, addElement, overwriteHistory, deleteElement,
       setAction, setInteraction, setSelectedElementId, setStartPanMousePosition,
     ]
   );
@@ -156,6 +171,9 @@ export function useCanvasEvents(canvasRef: RefObject<HTMLCanvasElement | null>) 
         } else {
           (event.target as HTMLElement).style.cursor = "default";
         }
+      } else if (activeTool === "eraser") {
+        const hit = getElementAtPosition(clientX, clientY, getElementsArray());
+        (event.target as HTMLElement).style.cursor = hit ? "pointer" : "default";
       }
 
       const ctx = getCanvasContext();
@@ -246,12 +264,19 @@ export function useCanvasEvents(canvasRef: RefObject<HTMLCanvasElement | null>) 
         document.body.style.cursor = "default";
       }
 
+      // Keep selection visible after move/resize with selection tool
+      const keepSelection =
+        activeTool === "selection" &&
+        (action === "moving" || action === "resizing");
+
       setAction("none");
-      setSelectedElementId(null);
+      if (!keepSelection) {
+        setSelectedElementId(null);
+      }
       setInteraction({ kind: "none" });
     },
     [
-      action, interaction, selectedElementId,
+      action, activeTool, interaction, selectedElementId,
       getMouseCoordinates, getCanvasContext, getElement,
       setAction, setInteraction, setSelectedElementId,
     ]
