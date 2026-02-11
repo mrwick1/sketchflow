@@ -1,31 +1,33 @@
 # SketchFlow
 
-A collaborative drawing application built with React, TypeScript, and Rough.js. Create hand-drawn style diagrams with freehand drawing, geometric shapes, text tools, and intuitive canvas manipulation.
+A hand-drawn style whiteboard built with React, TypeScript, and Rough.js. Create sketchy diagrams with 10 drawing tools, style customization, dark mode, and a snappy command palette.
 
-![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
-
-<!-- ![SketchFlow Demo](docs/demo.gif) -->
 
 ## Features
 
-- **Freehand Drawing** — Pencil tool with pressure-sensitive strokes via Perfect Freehand
-- **Geometric Shapes** — Line and rectangle tools with Rough.js hand-drawn style
-- **Text Tool** — Add and edit text elements directly on canvas
-- **Selection & Transform** — Click to select, drag to move, handles to resize
-- **Zoom & Pan** — Scroll to zoom, middle-click or spacebar to pan
-- **Undo/Redo** — Full history stack with Ctrl+Z / Ctrl+Y
-- **Keyboard Shortcuts** — Number keys for quick tool switching
+- **10 Drawing Tools** — Pan, Select, Rectangle, Ellipse, Diamond, Line, Arrow, Pencil, Text, Eraser
+- **Hand-drawn Aesthetic** — Rough.js rendering + Perfect Freehand pressure-sensitive strokes
+- **Style Customization** — Stroke color, fill, width, opacity, roughness per element
+- **Dark Mode** — Full light/dark theme with auto-adjusted stroke colors
+- **Command Palette** — Ctrl+K for instant access to all tools and actions
+- **Export** — PNG and SVG export of your drawings
+- **Grid Background** — Toggleable dot/line/no grid via command palette
+- **Selection Handles** — Dashed bounding box and corner handles on selected elements
+- **Undo/Redo** — Full history stack with Ctrl+Z / Ctrl+Shift+Z
+- **Local Persistence** — Elements, style, theme, and grid preference saved to localStorage
+- **Zoom & Pan** — Ctrl+scroll to zoom, Space+drag or middle-click to pan
 
 ## Getting Started
 
 ```bash
 git clone https://github.com/mrwick1/sketchflow.git
 cd sketchflow
-npm install
-npm run dev
+yarn install
+yarn dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
@@ -34,66 +36,75 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start dev server |
-| `npm run build` | Type-check and build for production |
-| `npm run lint` | Run ESLint |
-| `npm run test` | Run unit tests with Vitest |
-| `npm run cy:open` | Open Cypress for E2E testing |
+| `yarn dev` | Start dev server |
+| `yarn build` | Type-check and build for production |
+| `yarn lint` | Run ESLint |
+| `yarn test` | Run unit tests with Vitest |
 
 ## Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `1` | Selection tool |
-| `2` | Rectangle |
-| `3` | Line |
-| `4` | Pencil |
-| `5` | Text |
-| `6` | Pan |
+| Key | Tool |
+|-----|------|
+| `1` | Pan |
+| `2` | Selection |
+| `3` | Rectangle |
+| `4` | Ellipse |
+| `5` | Diamond |
+| `6` | Line |
+| `7` | Arrow |
+| `8` | Pencil |
+| `9` | Text |
+| `0` | Eraser |
+| `Ctrl+K` | Command Palette |
 | `Ctrl+Z` | Undo |
-| `Ctrl+Y` / `Ctrl+Shift+Z` | Redo |
+| `Ctrl+Shift+Z` | Redo |
 | `Ctrl+Scroll` | Zoom in/out |
 | `Space+Drag` | Pan canvas |
 
 ## Tech Stack
 
-- **React 18** + **TypeScript** — Type-safe component architecture
+- **React 19** + **TypeScript** — Type-safe component architecture
 - **Rough.js** — Hand-drawn style rendering on HTML5 Canvas
 - **Perfect Freehand** — Pressure-sensitive pencil strokes
-- **MUI** — Accessible toolbar and dialog components
-- **Vite** — Fast HMR development and optimized builds
-- **Cypress** — E2E tests for all drawing tools
+- **Zustand** + **Immer** — Lightweight state management with immutable updates
+- **CSS Modules** — Zero-runtime scoped styling
+- **Vite 7** — Fast HMR development and optimized builds
 - **Vitest** — Unit tests for utility functions
 
 ## Project Structure
 
 ```
 src/
+├── app/                    # App shell and layout
+├── canvas/                 # Canvas renderer, events, keyboard shortcuts
 ├── components/
-│   ├── action-bar/        # Tool selection toolbar
-│   ├── control-panel/     # Zoom and undo/redo controls
-│   └── info/              # Help dialog with shortcuts
-├── hooks/
-│   ├── useHistory.ts      # Undo/redo state management
-│   └── usePressedKeys.ts  # Keyboard input tracking
-├── utilities/
-│   ├── create-element.ts  # Element factory
-│   ├── draw-element.ts    # Canvas rendering with Rough.js
-│   ├── get-element-at-position.ts  # Hit detection
-│   ├── near-point/        # Proximity detection
-│   └── resized-coordinates/  # Resize calculations
-├── types.ts               # TypeScript type definitions
-└── App.tsx                # Main canvas application
+│   ├── action-bar/         # Tool selection toolbar
+│   ├── command-palette/    # Ctrl+K command palette
+│   ├── control-panel/      # Zoom and undo/redo controls
+│   ├── info/               # Help dialog
+│   ├── properties-panel/   # Style customization panel
+│   └── ui/                 # Shared UI primitives (Kbd, etc.)
+├── engine/
+│   ├── elements/           # Element types and defaults
+│   └── tools/              # Tool and action type definitions
+├── hooks/                  # usePressedKeys, useLocalPersistence
+├── store/
+│   ├── slices/             # Zustand slices (elements, viewport, tool, ui, style)
+│   ├── selectors.ts        # Derived state selectors
+│   └── useCanvasStore.ts   # Combined store
+├── theme/                  # CSS custom properties for light/dark
+└── utilities/              # Element creation, drawing, hit-testing, export, grid
 ```
 
 ## Architecture
 
-The app uses a custom canvas rendering pipeline with Rough.js for the hand-drawn aesthetic. State management is handled through React hooks with a custom history system supporting undo/redo. The element system is extensible — each tool type implements a common interface for creation, drawing, and transformation.
+The app renders to an HTML5 Canvas using Rough.js for the hand-drawn aesthetic. State lives in a single Zustand store composed of five slices (elements, viewport, tool, ui, style) with Immer for immutable updates. Elements are stored in a `Map<string, CanvasElement>` for O(1) lookup by ID.
 
 Key patterns:
 - **Element lifecycle**: Create → Draw → Select → Move/Resize → Update
 - **Coordinate system**: Client coordinates transformed through pan offset and scale
-- **History**: Immutable state snapshots with index-based undo/redo
+- **History**: Immutable Map snapshots with index-based undo/redo
+- **Rendering**: clear → grid → elements → selection handles (per frame)
 
 ## License
 

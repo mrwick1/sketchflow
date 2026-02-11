@@ -1,20 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
-
 :root {
-  /* Legacy tokens (used by current components — will be removed in Phase 4) */
-  --primary: #10b981;
-  --primary-hover: #059669;
-  --primary-bg-color: white;
-  --secondary-bg-color: #ecfdf5;
-  --selected-bg-color: #d1fae5;
-  --primary-text-color: #1e293b;
-  --secondary-text-color: #94a3b8;
-  --highlight-color: #064e3b;
-  --border-color: #a7f3d0;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --hover-bg-color: #d1fae5;
-  --panel-bg-color: #e2e8f0;
-
   /* Swiss Precision Design Tokens */
   --color-accent: #0055FF;
   --color-bg: #FFFFFF;
@@ -55,20 +39,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-body);
 }
 
-.textArea {
-  position: fixed;
-  font: 24px sans-serif;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  overflow: hidden;
-  white-space: pre;
-  background: transparent;
-  z-index: 2;
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
 }
 
 button {

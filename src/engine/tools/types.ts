@@ -2,9 +2,13 @@ export const TOOLS = {
   pan: "pan",
   selection: "selection",
   rectangle: "rectangle",
+  ellipse: "ellipse",
+  diamond: "diamond",
   line: "line",
+  arrow: "arrow",
   pencil: "pencil",
   text: "text",
+  eraser: "eraser",
 } as const;
 
 export type Tool = (typeof TOOLS)[keyof typeof TOOLS];

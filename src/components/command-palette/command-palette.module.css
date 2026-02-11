@@ -1,0 +1,90 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.dialog {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  width: 400px;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.input {
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border: none;
+  border-bottom: var(--border);
+  background: transparent;
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--color-muted);
+}
+
+.list {
+  overflow-y: auto;
+  padding: var(--sp-1) 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-2) var(--sp-4);
+  border: none;
+  background: transparent;
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item[data-active="true"] {
+  background-color: var(--color-surface-hover);
+}
+
+.item:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--color-muted);
+}
+
+.label {
+  flex: 1;
+}
+
+.shortcut {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+.empty {
+  padding: var(--sp-4);
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 13px;
+}

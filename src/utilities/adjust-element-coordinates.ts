@@ -3,7 +3,7 @@ import type { CanvasElement } from "../engine/elements/types";
 export const adjustElementCoordinates = (element: CanvasElement) => {
   const { type, x1, y1, x2, y2 } = element;
 
-  if (type === "rectangle") {
+  if (type === "rectangle" || type === "ellipse" || type === "diamond") {
     const minX = Math.min(x1, x2);
     const maxX = Math.max(x1, x2);
     const minY = Math.min(y1, y2);

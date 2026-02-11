@@ -25,7 +25,7 @@ export const createToolSlice: StateCreator<
   interaction: { kind: "none" },
   selectedElementId: null,
 
-  setActiveTool: (tool) => set({ activeTool: tool }),
+  setActiveTool: (tool) => set({ activeTool: tool, selectedElementId: null }),
 
   setAction: (action) => set({ action }),
 

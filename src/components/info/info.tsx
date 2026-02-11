@@ -1,6 +1,7 @@
 import { HelpCircle, X } from "lucide-react";
-import "./info-style.css";
 import { useRef } from "react";
+import { Kbd } from "../ui";
+import styles from "./info.module.css";
 
 export function Info() {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -8,65 +9,60 @@ export function Info() {
   return (
     <div>
       <button
-        className="infoButton"
+        className={styles.trigger}
         aria-label="Open information dialog"
         onClick={() => dialogRef.current?.showModal()}
       >
         <HelpCircle size={18} />
       </button>
-      <dialog ref={dialogRef} className="infoDialog" aria-labelledby="info-dialog-title">
-        <div className="dialogHeader">
-          <h2 id="info-dialog-title" className="dialogTitle">
+
+      <dialog ref={dialogRef} className={styles.dialog} aria-labelledby="info-dialog-title">
+        <div className={styles.header}>
+          <h2 id="info-dialog-title" className={styles.title}>
             How to Use SketchFlow
           </h2>
           <button
-            className="closeButton"
+            className={styles.close}
             aria-label="Close"
             onClick={() => dialogRef.current?.close()}
           >
             <X size={18} />
           </button>
         </div>
-        <div className="infoContent">
-          <p>Welcome to SketchFlow! Get started with these simple steps:</p>
-          <ul>
+
+        <div className={styles.content}>
+          <p className={styles.sectionLabel}>Tools</p>
+          <ul className={styles.list}>
+            <li><Kbd>1</Kbd> Pan — Hold <Kbd>Space</Kbd> + drag, or middle mouse button</li>
+            <li><Kbd>2</Kbd> Select — Click to select, drag to move, handles to resize</li>
+            <li><Kbd>3</Kbd> Rectangle — Draw rectangles with hand-drawn style</li>
+            <li><Kbd>4</Kbd> Ellipse — Draw ellipses</li>
+            <li><Kbd>5</Kbd> Diamond — Draw diamond shapes</li>
+            <li><Kbd>6</Kbd> Line — Draw straight lines</li>
+            <li><Kbd>7</Kbd> Arrow — Draw arrows</li>
+            <li><Kbd>8</Kbd> Pencil — Freehand drawing with pressure sensitivity</li>
+            <li><Kbd>9</Kbd> Text — Click to place and type text</li>
+            <li><Kbd>0</Kbd> Eraser — Click elements to delete</li>
+          </ul>
+
+          <p className={styles.sectionLabel}>Shortcuts</p>
+          <ul className={styles.list}>
             <li>
-              <strong>Choose a Tool:</strong> Select from pencil, line,
-              rectangle, or text tools to start drawing.
+              Command Palette — <Kbd>Ctrl</Kbd> + <Kbd>K</Kbd>
             </li>
             <li>
-              <strong>Draw & Move:</strong> Click and drag on the canvas to
-              draw. Select an element and drag to move.
+              Undo — <Kbd>Ctrl</Kbd> + <Kbd>Z</Kbd>
             </li>
             <li>
-              <strong>Edit Text:</strong> Select the text tool and click on the
-              canvas to start typing.
+              Redo — <Kbd>Ctrl</Kbd> + <Kbd>Y</Kbd> or <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>Z</Kbd>
             </li>
             <li>
-              <strong>Zoom:</strong> Use Ctrl + Scroll to zoom in and out of the
-              canvas.
+              Zoom — <Kbd>Ctrl</Kbd> + scroll
             </li>
             <li>
-              <strong>Pan:</strong> Hold Space and drag to move around the
-              canvas, or hold the middle mouse button.
+              Pan — <Kbd>Space</Kbd> + drag
             </li>
           </ul>
-          <p>Keyboard Shortcuts:</p>
-          <ul>
-            <li>
-              <strong>Undo:</strong> Ctrl + Z
-            </li>
-            <li>
-              <strong>Redo:</strong> Ctrl + Y or Ctrl + Shift + Z
-            </li>
-            <li>
-              <strong>Zoom In:</strong> Ctrl + Plus
-            </li>
-            <li>
-              <strong>Zoom Out:</strong> Ctrl + Minus
-            </li>
-          </ul>
-          <p>Enjoy creating your masterpiece!</p>
         </div>
       </dialog>
     </div>

@@ -1,0 +1,14 @@
+.textArea {
+  position: fixed;
+  font-size: 24px;
+  font-family: var(--font-body);
+  color: var(--color-fg);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  overflow: hidden;
+  white-space: pre;
+  background: transparent;
+  z-index: 2;
+}

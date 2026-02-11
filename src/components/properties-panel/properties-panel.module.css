@@ -1,0 +1,94 @@
+.panel {
+  position: fixed;
+  right: var(--sp-5);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 200px;
+  padding: var(--sp-4);
+  background: var(--color-bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: var(--sp-2);
+}
+
+.colorGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-1);
+}
+
+.swatch {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0;
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.swatch:hover {
+  border-color: var(--color-fg);
+}
+
+.swatch[data-active="true"] {
+  border-color: var(--color-accent);
+  border-width: 2px;
+}
+
+.swatchNone {
+  position: relative;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.swatchNone::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -2px;
+  right: -2px;
+  height: 1px;
+  background: #C92A2A;
+  transform: rotate(-45deg);
+}
+
+.widthGroup {
+  display: flex;
+  gap: var(--sp-1);
+}
+
+.widthButton {
+  flex: 1;
+  height: var(--sp-8);
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.widthButton:hover {
+  border-color: var(--color-fg);
+}
+
+.widthButton[data-active="true"] {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}

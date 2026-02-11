@@ -1,0 +1,36 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.wrapper::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--sp-1) var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  background: var(--color-fg);
+  color: var(--color-bg);
+  border-radius: var(--radius);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition);
+  z-index: 100;
+}
+
+.top::after {
+  bottom: calc(100% + var(--sp-2));
+}
+
+.bottom::after {
+  top: calc(100% + var(--sp-2));
+}
+
+.wrapper:hover::after {
+  opacity: 1;
+}
