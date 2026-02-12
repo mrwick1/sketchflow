@@ -12,7 +12,7 @@ const FILL_COLORS = [
   "#EBFBEE", "#FFF9DB", "#FFF4E6", "#F8F9FA", "#DEE2E6", "#868E96",
 ];
 
-const STROKE_WIDTHS = [1, 2, 3, 5];
+const STROKE_WIDTHS = [1, 2, 4, 8];
 
 const DRAWING_TOOLS = new Set(["rectangle", "ellipse", "diamond", "line", "arrow", "pencil", "text"]);
 const FILL_TYPES = new Set(["rectangle", "ellipse", "diamond"]);
