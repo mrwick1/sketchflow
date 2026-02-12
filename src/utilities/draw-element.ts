@@ -41,7 +41,9 @@ export const drawElement = (
       break;
     }
     case "pencil": {
-      const strokePoints = getStroke(element.points as { x: number; y: number }[]);
+      const strokePoints = getStroke(element.points as { x: number; y: number }[], {
+        size: element.style.strokeWidth * 3,
+      });
       const formattedPoints: [number, number][] = strokePoints.map((point) => {
         if (point.length !== 2) {
           throw new Error(
